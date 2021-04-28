@@ -7,6 +7,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,8 +21,20 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PDf extends javax.swing.JFrame {
     
     String pathFile = "";
+    public String userName = System.getProperty("user.name");
+    public String directorioGlobalConfig = "C:\\Users\\" + userName+"\\Pictures\\Carpeta Exports\\";
+    public void creardirectorio(){
+        File directorio = new File("C:/Users/"+userName+"/Pictures/Carpeta Exports");
+        if (!directorio.exists()) {
+            if (directorio.mkdirs()) {
+                System.out.println("Directorio creado");
+            } else {
+                System.out.println("Error al crear directorio");
+            }
+        }
+    }
     
-    private FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de imagen", "jpg,png");
+    private FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de imagen", "png");
     String rutaimagen;
 
     public PDf() {
@@ -89,6 +102,7 @@ public class PDf extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        creardirectorio();
         //creamos un objeto de JFileChooser
         JFileChooser add = new JFileChooser();
         //del obj creado llamamos al metodo setFileFilter
@@ -134,7 +148,7 @@ public class PDf extends javax.swing.JFrame {
         try {
             
             Document doc = new Document();
-            PdfWriter.getInstance(doc, new FileOutputStream("C:\\test.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream(directorioGlobalConfig+"test.pdf"));
             Rectangle one = new Rectangle(841.9f, 595.3f);
             Rectangle two = new Rectangle(595.3f, 841.9f);
             doc.setPageSize(one);
